@@ -37,7 +37,7 @@ public class Main
 {
         private static void help()
         {
-                System.out.println("Usage: [flag] [name]...");
+                System.out.println("Usage: [flag] [name]...[final time for watchdog in seconds or \'inf\' for never ending]");
                 System.out.println("for each process repeat flag and name");
                 System.out.println("flag: start with -p\nappend n if should equal process name\nappend s if case sensative\nappend k if kill once");
                 System.out.println("Examples:\n-p [process name]\n-pnsk [process name]\n-pns [process name]\n");
@@ -63,7 +63,7 @@ public class Main
                 public RealMain(String[] args) throws ProcessHunterException
                 {
                         
-                        if (args.length < 2 || args.length % 2 != 0) {
+                        if (args.length < 3 || (args.length - 1) % 2 != 0) {
                                 System.out.println("Invalid parameters\n\'-help\' for help");
                                 System.exit(1);
                         }
@@ -74,7 +74,7 @@ public class Main
                         WantedProcessInfo wpi;
                         ProcessHitList list = ProcessHitList.getInstance();
 
-                        for (i = 0; i < args.length; i += 2) {
+                        for (i = 0; i < args.length - 1; i += 2) {
                                 flag = args[i];
                                 procName = args[i + 1];
                                 if (!flag.startsWith("-p"))
@@ -83,15 +83,37 @@ public class Main
                                 System.out.printf("process watchdog created: %s\n", wpi.toString());
                                 list.addProcess(wpi);
                         }
+                        boolean infRun = args[args.length - 1].equalsIgnoreCase("inf"); 
+                        long timer = 0;
+                        
+                        if (!infRun) {
+                                try {
+                                        timer = Long.parseLong(args[args.length - 1]) * 1000;
+                                } catch (NumberFormatException e) {
+                                        System.out.println("Error invalid time");
+                                        System.exit(1);
+                                }
+                        }
+                        
                         ProcessHunterControls hunter = ProcessHunter.getInstance(list, this);
                         hunter.start();
                         
-                        while (hunter.isRunning()) {
+                        if (infRun) {
+                                while (hunter.isRunning()) {
+                                        try {
+                                                Thread.sleep(1000);
+                                        } catch (InterruptedException ex) {
+                                        }
+                                }
+                        } else {
                                 try {
-                                        Thread.sleep(100);
+                                        Thread.sleep(timer);
                                 } catch (InterruptedException ex) {
                                 }
                         }
+                        
+                        hunter.stop();
+                        System.exit(0);
                 }
 
                 @Override

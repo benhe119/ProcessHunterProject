@@ -157,6 +157,7 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
                                 }
                         }
                         
+                        this.running = false;
                 });
                 runningThread.start();
         }
