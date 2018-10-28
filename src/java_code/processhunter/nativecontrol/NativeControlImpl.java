@@ -26,7 +26,10 @@ package processhunter.nativecontrol;
 
 import processhunter.util.ProcessInfo;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class NativeControlImpl implements NativeControlSpec 
 {
@@ -51,59 +54,76 @@ public class NativeControlImpl implements NativeControlSpec
         private LinkedList<ProcessInfo> processList;
         
         private static boolean instanceCreated = false;
-        private static NativeControlSpec instance = null;
+        
+        private final Lock mutex;
         
         private NativeControlImpl()
         {
                 if (instanceCreated)
                         throw new RuntimeException("instance running");
                 instanceCreated = true;
+                mutex = new ReentrantLock(true);
         }
         
         public synchronized static NativeControlSpec createInstance()
         {
-                synchronized (NativeControlImpl.class) {
-                        instance = new NativeControlImpl();
-                        return instance;
-                }
+                return new NativeControlImpl();
         }
         
         @Override
         public Date updateProcessList() 
         {
-                processList = new LinkedList<>();
-                
-                if (!createProcessSnapshot())
-                        return null;
-                
-                Date date = new Date();
-                
-                long addr;
-                while ((addr = getNextProcessAddress()) != ERROR) {
-                        if (addr == NO_MORE)
-                                break;
+                LinkedList<ProcessInfo> processListLocal = new LinkedList<>();
+                mutex.lock();
+                Date date;
                         
-                        try {
-                                processList.add(new ProcessInfo(getProcessName(addr), getPID(addr)));
-                        } catch (Exception e) {
+                try {
+                        if (!createProcessSnapshot())
+                                return null;
+                        
+                        date = new Date();
+                        
+                        long addr;
+                        while ((addr = getNextProcessAddress()) != ERROR) {
+                                if (addr == NO_MORE)
+                                        break;
                                 
+                                try {
+                                        processListLocal.add(new ProcessInfo(getProcessName(addr), getPID(addr)));
+                                } catch (Exception e) {
+                                        
+                                }
+                                
+                                freeProcessNativeInfo(addr);
                         }
                         
-                        freeProcessNativeInfo(addr);
+                        destroyProcessSnapshot();
+                        this.processList = processListLocal;
+                } finally {
+                        mutex.unlock();
                 }
-                
-                destroyProcessSnapshot();
                 return date;
         }
 
         @Override
         public LinkedList<ProcessInfo> getProcessList() 
         {
-                return processList;
+                LinkedList<ProcessInfo> ret = new LinkedList<>();
+                
+                mutex.lock();
+                try {
+                        Iterator<ProcessInfo> it = this.processList.iterator();
+                        while (it.hasNext())
+                                ret.add(it.next());
+                } finally {
+                        mutex.unlock();
+                }
+                
+                return ret;
         }
 
         @Override
-        public boolean killProcess(ProcessInfo info) 
+        public synchronized boolean killProcess(ProcessInfo info) 
         {
                 if (isProcessRunning(info.getPid()))
                         return killProcessByPid(info.getPid());
