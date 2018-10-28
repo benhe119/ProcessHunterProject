@@ -8,6 +8,5 @@ The code uploaded is licensed under the mit license.
 
 ## notice
 I will be uploading to the repo when I add something or fix a bug I found. Note
-bugs detected and fixes by other people are not welcomed this is a read only 
-repo!
+I will not be replying to bug reports though github.
  
