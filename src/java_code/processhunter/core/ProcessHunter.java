@@ -55,7 +55,7 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
                 this.hitList = hitList;
                 this.wantedProcessess = hitList.getCurrentInfoList();
                 running = false;
-                nativeControls = NativeControlImpl.createInstance();
+                nativeControls = NativeControlImpl.getInstance();
                 this.callback = callback;
                 hitList.registerListener(this);
         }

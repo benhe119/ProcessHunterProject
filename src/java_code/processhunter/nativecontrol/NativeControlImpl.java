@@ -54,6 +54,7 @@ public class NativeControlImpl implements NativeControlSpec
         private LinkedList<ProcessInfo> processList;
         
         private static boolean instanceCreated = false;
+        private static NativeControlSpec instance = null;
         
         private final Lock mutex;
         
@@ -65,9 +66,16 @@ public class NativeControlImpl implements NativeControlSpec
                 mutex = new ReentrantLock(true);
         }
         
-        public synchronized static NativeControlSpec createInstance()
+        public static NativeControlSpec getInstance()
         {
-                return new NativeControlImpl();
+                if (instance == null) {
+                        synchronized (NativeControlImpl.class) {
+                                if (instance == null)
+                                        instance = new NativeControlImpl();
+                        }
+                }
+                
+                return instance;
         }
         
         @Override

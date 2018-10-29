@@ -46,21 +46,26 @@ public class Main
         
         public static void main(String[] args) throws ProcessHunterException 
         {
-                if (args.length == 1) {
-                        if (args[0].equals("-help")) 
-                                help();
-                        else 
-                                System.out.printf("%s unknown\n\'-help\' for help\n", args[0]);
-                        
-                        System.exit(0);
-                }
+                if (args.length == 0) {
+                        Gui gui = new Gui();
+                } else {
                 
-                RealMain m = new RealMain(args);
+                        if (args.length == 1) {
+                                if (args[0].equals("-help")) 
+                                        help();
+                                else 
+                                        System.out.printf("%s unknown\n\'-help\' for help\n", args[0]);
+
+                                System.exit(0);
+                        }
+
+                        CmdMain m = new CmdMain(args);
+                }
         }
         
-        private static class RealMain implements ProcessKilledCallback
+        private static class CmdMain implements ProcessKilledCallback
         {
-                public RealMain(String[] args) throws ProcessHunterException
+                public CmdMain(String[] args) throws ProcessHunterException
                 {
                         
                         if (args.length < 3 || (args.length - 1) % 2 != 0) {
