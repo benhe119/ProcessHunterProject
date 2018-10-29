@@ -47,7 +47,9 @@ public class Main
         public static void main(String[] args) throws ProcessHunterException 
         {
                 if (args.length == 0) {
+                        Gui.setLookAndFeel();
                         Gui gui = new Gui();
+                        gui.init();
                 } else {
                 
                         if (args.length == 1) {
