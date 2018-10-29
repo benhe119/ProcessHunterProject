@@ -64,8 +64,13 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
         {
                 if (instance == null) {
                         synchronized (ProcessHunter.class) {
-                                instance = new ProcessHunter(hitList, callback);
+                                if (instance == null)
+                                        instance = new ProcessHunter(hitList, callback);
+                                else 
+                                        throw new ProcessHunterException("Instance already running");
                         }
+                } else {
+                        throw new ProcessHunterException("Instance already running");
                 }
                 
                 return instance;

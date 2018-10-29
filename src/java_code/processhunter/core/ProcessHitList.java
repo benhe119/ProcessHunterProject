@@ -49,7 +49,8 @@ public class ProcessHitList
         {
                 if (instance == null) {
                         synchronized (ProcessHitList.class) {
-                                instance = new ProcessHitList();
+                                if (instance == null)
+                                        instance = new ProcessHitList();
                         }
                 }
                 
