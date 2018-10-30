@@ -321,7 +321,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 identifierTFPanel.setPreferredSize(textFieldButtonDimension);
                 addProcessPanel.setPreferredSize(textFieldButtonDimension);
                 
-                processIdentifierTF = new JTextField("Process Indentifier");
+                processIdentifierTF = new JTextField("Process Identifier");
                 processIdentifierTF.setPreferredSize(textFieldButtonDimension);
                 
                 addProcessButton = new JButton("Add Process");
@@ -338,8 +338,8 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 
                 Dimension cBDim = new Dimension(indentifierCBPanel.getPreferredSize().width - 5, (indentifierCBPanel.getPreferredSize().height / 3));
                 
-                nameEqualCB = new JCheckBox("Indentifier Text should match");
-                caseSensativeCB = new JCheckBox("Case Sensative");
+                nameEqualCB = new JCheckBox("Identifier Text should match");
+                caseSensativeCB = new JCheckBox("Case Sensitive");
                 killOnceCB = new JCheckBox("Kill Process Once");
                 
                 nameEqualCB.setPreferredSize(cBDim);
@@ -393,7 +393,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 
                 wireUpGui();
                 model.addColumn("Process");
-                model.addColumn("Must Equal - Case Sensative - kill once");
+                model.addColumn("Must Equal - Case Sensitive - kill once");
                 
                 mainFrame.pack();
                 mainFrame.setResizable(false);
