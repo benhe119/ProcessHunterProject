@@ -28,7 +28,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -210,17 +209,14 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 
                 this.processListTable.addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed(MouseEvent mouseEvent) {
-                                JTable table =(JTable) mouseEvent.getSource();
-                                Point point = mouseEvent.getPoint();
-                                int row = table.rowAtPoint(point);
-                                if (mouseEvent.getClickCount() == 2 && processListTable.getSelectedRow() != -1) {
-                                        int val = JOptionPane.showConfirmDialog(mainFrame, "Remove this Identification", "remove", JOptionPane.YES_NO_OPTION);
-                                        if (val == JOptionPane.YES_OPTION) {
-                                                hitList.removeProcess(new WantedProcessInfo((String)model.getValueAt(processListTable.getSelectedRow(), 0), false, false, false));
+                        public void mousePressed(MouseEvent me) {
+                                if (processListTable == (JTable)me.getSource()) {
+                                        if (me.getClickCount() == 2 && processListTable.getSelectedRow() != -1) {
+                                                if (JOptionPane.showConfirmDialog(mainFrame, "Remove this Identification", "remove", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) 
+                                                        hitList.removeProcess(new WantedProcessInfo((String)model.getValueAt(processListTable.getSelectedRow(), 0), false, false, false));
                                         }
                                 }
-                    }
+                        }
                 });
         }
         
@@ -420,11 +416,11 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
         @Override
         public void processRemoved(WantedProcessInfo process) 
         {
-                String s;
+                String str;
                 int row = model.getRowCount(), i;
                 for (i = 0; i < row; i++) {
-                        s = (String)model.getValueAt(i, 0);
-                        if (s.equals(process.getProcessName())) {
+                        str = (String)model.getValueAt(i, 0);
+                        if (str.equals(process.getProcessName())) {
                                 model.removeRow(i);
                                 log("Process Removed: " + process.getProcessName());
                                 return;
