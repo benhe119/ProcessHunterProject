@@ -393,7 +393,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 
                 wireUpGui();
                 model.addColumn("Process");
-                model.addColumn("Must Equal - Case Sensitive - kill once");
+                model.addColumn("cmd parameters/flag");
                 
                 mainFrame.pack();
                 mainFrame.setResizable(false);
@@ -408,7 +408,10 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 String[] row = new String[2];
                 
                 row[0] = process.getProcessName();
-                row[1] = String.format("%c | %c | %c", process.justEqualsName() ? 'T' : 'F', process.isCaseSensative() ? 'T' : 'F', process.justKillOnce() ? 'T' : 'F');
+                row[1] = "-p" + (process.justEqualsName() ? "n" : "") + (process.justEqualsName() ? "s" : "") + (process.justEqualsName() ? "k" : "");
+                
+                
+                
                 model.addRow(row);
                 log("Process Added: " + process.getProcessName());
         }
