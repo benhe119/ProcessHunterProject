@@ -25,6 +25,7 @@
 package processhunter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -177,7 +178,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                         return;
                 
                 String old = logPane.getText();
-                old += msg + "\n";
+                old += msg + "\r\n";
                 logPane.setText(old);
         }
         

@@ -100,9 +100,9 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
         
         private synchronized void logProcessKilled(ProcessInfo info, WantedProcessInfo wpi, Date date)
         {
+                callback.onProcessKill(info, date);
                 if (wpi.justKillOnce())
                         this.hitList.removeProcess(wpi);
-                callback.onProcessKill(info, date);
         }
         
         private void shouldKillProcess(ProcessInfo info, WantedProcessInfo wpi, Date date)
