@@ -82,7 +82,7 @@ public class NativeControlImpl implements NativeControlSpec
         public Date updateProcessList() 
         {
                 LinkedList<ProcessInfo> processListLocal = new LinkedList<>();
-                mutex.lock();
+                while (!mutex.tryLock());
                 Date date;
                         
                 try {
@@ -118,7 +118,7 @@ public class NativeControlImpl implements NativeControlSpec
         {
                 LinkedList<ProcessInfo> ret = new LinkedList<>();
                 
-                mutex.lock();
+                while (!mutex.tryLock());
                 try {
                         Iterator<ProcessInfo> it = this.processList.iterator();
                         while (it.hasNext())

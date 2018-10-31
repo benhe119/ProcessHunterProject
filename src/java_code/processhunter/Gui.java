@@ -97,6 +97,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 
                 mainFrame = new JFrame();
                 mainFrame.setSize(WIDTH, HEIGHT);
+                mainFrame.setTitle("Process Hunter");
                 
                 JPanel upperPanel = new JPanel();
                 upperPanel.setPreferredSize( new Dimension(WIDTH - 10, (HEIGHT / 3) / 2));
@@ -408,7 +409,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 String[] row = new String[2];
                 
                 row[0] = process.getProcessName();
-                row[1] = "-p" + (process.justEqualsName() ? "n" : "") + (process.justEqualsName() ? "s" : "") + (process.justEqualsName() ? "k" : "");
+                row[1] = "-p" + (process.justEqualsName() ? "n" : "") + (process.isCaseSensative() ? "s" : "") + (process.justKillOnce() ? "k" : "");
                 
                 
                 

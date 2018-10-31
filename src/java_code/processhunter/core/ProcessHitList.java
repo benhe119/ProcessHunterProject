@@ -87,22 +87,27 @@ public class ProcessHitList
         
         public synchronized boolean addProcess(WantedProcessInfo info)
         {
-                mutex.lock();
+                boolean ret = true;
+                while (!mutex.tryLock());
+                
                 try {
                         Iterator<WantedProcessInfo> it = processWantedQ.iterator();
                         while(it.hasNext()) {
                                 if (it.next().getProcessName().equals(info.getProcessName())) {
-                                        mutex.unlock();
-                                        return false;
+                                        ret = false;
+                                        break;
                                 }
+                                
                         }
                         
-                        processWantedQ.add(info);
-                        this.onProcessAdd(info);
+                        if (ret) {
+                                processWantedQ.add(info);
+                                this.onProcessAdd(info);
+                        }
                 } finally {
-                        mutex.unlock();
+                                mutex.unlock();
                 }
-                return true;
+                return ret;
         }
         
         public synchronized boolean removeProcess(WantedProcessInfo info)
@@ -110,7 +115,7 @@ public class ProcessHitList
                 boolean ret = false;
                 WantedProcessInfo wpi;
                 int i;
-                mutex.lock();
+                while (!mutex.tryLock());
                 try {
                         
                         for (i = 0; i < processWantedQ.size(); i++) {
@@ -134,7 +139,7 @@ public class ProcessHitList
                 int i;
                 WantedProcessInfo wpi;
                 WantedProcessInfo[] ret;
-                mutex.lock();
+                while (!mutex.tryLock());
                 try {
                         ret = new WantedProcessInfo[processWantedQ.size()];
                         
