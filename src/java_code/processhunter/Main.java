@@ -44,9 +44,19 @@ public class Main
                 System.out.println("\nNOTE: appends chars to flag does not need to be in any order but must start with -p and if only -p name must equal and will be case sensative\n");
         }
         
+        private static void attemptDaemonMode()
+        {
+                if (System.console() != null)
+                        return;
+                
+                
+                System.exit(0);
+        }
+        
         public static void main(String[] args) throws ProcessHunterException 
         {
                 if (args.length == 0) {
+                        attemptDaemonMode();
                         Gui.setLookAndFeel();
                         Gui gui = new Gui();
                         gui.init();
@@ -61,7 +71,7 @@ public class Main
                                 System.exit(0);
                         }
 
-                        CmdMain m = new CmdMain(args);
+                        new CmdMain(args);
                 }
         }
         
