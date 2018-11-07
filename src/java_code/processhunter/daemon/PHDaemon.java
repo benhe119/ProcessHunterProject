@@ -45,6 +45,8 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
         private final PrintWriter log;
         private final ConfigParser parser;
         
+        private volatile int processCount;
+        
         public PHDaemon()
         {
                 File file = new File(PH_DAEMON_CONFIG_FILENAME);
@@ -57,7 +59,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                 
                 hitList = ProcessHitList.getInstance();
                 parser = new ConfigParser(hitList, file);
-                
+                processCount = 0;
         }
         
         public void engage()
@@ -71,7 +73,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                         throw new RuntimeException(ex.getMessage());
                 }
                 
-                log.println("Hunter starting...\n");
+                log.println("Hunter starting...");
                 try {
                         hunterControls = ProcessHunter.getInstance(hitList, this);
                 } catch (ProcessHunterException ex) {
@@ -79,7 +81,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                         throw new RuntimeException(ex.getMessage());
                 }
                 if (timer > 0) {
-                        log.printf("Hunter on for %d milliseconds\n", timer);
+                        log.printf("Hunter on for %d milliseconds\r\n", timer);
                         hunterControls.start();
 
                         try {
@@ -93,9 +95,9 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                         
                         hunterControls.start();
                         
-                        while (hitList.getCurrentInfoList().length >= 1) {
+                        while (this.processCount > 0) {
                                 try {
-                                        Thread.sleep(1000);
+                                        Thread.sleep(100);
                                 } catch (InterruptedException ex) {
 
                                 }
@@ -111,18 +113,20 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
         @Override
         public void processAdded(WantedProcessInfo process) 
         {
-                log.printf("Process added %s\n", process.toString());
+                ++this.processCount;
+                log.printf("Process added %s\r\n", process.toString());
         }
 
         @Override
         public void processRemoved(WantedProcessInfo process) 
         {
-                log.printf("Process removed %s\n", process.toString());
+                --this.processCount;
+                log.printf("Process removed %s\r\n", process.toString());
         }
 
         @Override
         public void onProcessKill(ProcessInfo info, Date date) 
         {
-                log.printf("Process killed: name: %s pid: %d | snapshot date: %s\n", info.getProcessName(), info.getPid(), date.toString());
+                log.printf("Process killed: name: %s pid: %d | snapshot date: %s\r\n", info.getProcessName(), info.getPid(), date.toString());
         }
 }

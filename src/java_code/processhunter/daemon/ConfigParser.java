@@ -89,7 +89,7 @@ public class ConfigParser
                                         if (!parts[0].startsWith("-p"))
                                                 throw new RuntimeException(String.format("Invalid line at %d command must start with -p\n", count));
 
-                                        hitList.addProcess(new WantedProcessInfo(parts[1], parts[1].contains("n"), parts[1].contains("s"), parts[1].contains("k")));
+                                        hitList.addProcess(new WantedProcessInfo(parts[1], parts[0].contains("n"), parts[0].contains("s"), parts[0].contains("k")));
                                 }
                         }
                 } catch (Exception ex) {
