@@ -30,6 +30,7 @@ import processhunter.core.ProcessHunter;
 import processhunter.core.ProcessHunterControls;
 import processhunter.core.ProcessKilledCallback;
 import processhunter.core.WantedProcessInfo;
+import processhunter.daemon.PHDaemon;
 import processhunter.util.ProcessHunterException;
 import processhunter.util.ProcessInfo;
 
@@ -48,7 +49,18 @@ public class Main
         {
                 if (System.console() != null)
                         return;
+                PHDaemon daemon;
+                try {
+                        daemon = new PHDaemon();
+                } catch (Exception ex) {
+                        return;
+                }
                 
+                try {
+                        daemon.engage();
+                } catch (Exception ex) {
+                        
+                }
                 
                 System.exit(0);
         }

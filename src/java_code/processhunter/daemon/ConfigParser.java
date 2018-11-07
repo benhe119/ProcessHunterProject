@@ -28,11 +28,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import processhunter.core.ProcessHitList;
+import processhunter.core.WantedProcessInfo;
 
 public class ConfigParser 
 {
         private Scanner configScanner;
         private ProcessHitList hitList;
+        private boolean finshed;
         
         public ConfigParser(ProcessHitList hitList, File file)
         {
@@ -46,10 +48,59 @@ public class ConfigParser
                 } catch (FileNotFoundException ex) {
                         throw new RuntimeException("File not found");
                 }
+                finshed = false;
         }
         
-        public void parse()
+        public long parse()
         {
+                long ret = 0;
+                if (finshed)
+                        throw new RuntimeException("Parsing already finshed");
                 
+                String line;
+                String[] parts;
+                int count = 1;
+                try {
+                        while (configScanner.hasNextLine()) {
+                                line = configScanner.nextLine();
+                                count++;
+                                if (line.startsWith("#"))
+                                        continue;
+
+                                parts = line.split("=");
+
+                                if (parts.length != 2)
+                                        throw new RuntimeException(String.format("Invalid line at %d\n", count));
+
+                                parts[0] = parts[0].trim();
+                                parts[1] = parts[1].trim();
+                                
+                                if (parts[0].equals("timer")) {
+                                        try {
+                                                if (parts[1].equals("inf"))
+                                                        ret = -1;
+                                                else
+                                                        ret = Long.parseLong(parts[1]);
+                                        } catch (NumberFormatException ex) {
+                                                throw new Exception("Invalid timer");
+                                        }
+                                }
+                                
+                                if (!parts[0].startsWith("-p"))
+                                        throw new RuntimeException(String.format("Invalid line at %d\n", count));
+
+                                hitList.addProcess(new WantedProcessInfo(parts[1], parts[1].contains("n"), parts[1].contains("s"), parts[1].contains("k")));
+                        }
+                } catch (Exception ex) {
+                        throw new RuntimeException(ex.getMessage());
+                } finally {
+                        configScanner.close();
+                        finshed = true;
+                }
+                
+                if (ret == 0)
+                        throw new RuntimeException("No timer specified");
+                else
+                        return ret;
         }
 }
