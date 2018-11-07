@@ -31,7 +31,7 @@ import java.io.PrintWriter;
 
 public class PHD_Log extends PrintWriter 
 {
-        public static final String LOG_FILENAME_BEG = "PH_DAEMON_LOG_";
+        public static final String LOG_FILENAME_BEG = "ph_daemon_log_";
         
         private static PrintWriter instance = null;
         

@@ -68,14 +68,15 @@ public class WantedProcessInfo
         public String toString()
         {
                 StringBuilder sb = new StringBuilder();
-                sb.append(this.processName);
+                sb.append("-p");
                 if (this.equalsName)
-                        sb.append("-equalName");
+                        sb.append('n');
                 if (this.caseSensative)
-                        sb.append("-caseSensative");
+                        sb.append('s');
                 if (this.killOnce)
-                        sb.append("-killOnce");
-                
+                        sb.append('k');
+                sb.append(' ');
+                sb.append(this.processName);
                 return sb.toString();
         }
 }

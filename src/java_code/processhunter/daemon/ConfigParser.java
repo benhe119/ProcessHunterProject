@@ -59,18 +59,18 @@ public class ConfigParser
                 
                 String line;
                 String[] parts;
-                int count = 1;
+                int count = 0;
                 try {
                         while (configScanner.hasNextLine()) {
                                 line = configScanner.nextLine();
                                 count++;
-                                if (line.startsWith("#"))
+                                if (line.startsWith("#") || line.isEmpty())
                                         continue;
 
                                 parts = line.split("=");
 
                                 if (parts.length != 2)
-                                        throw new RuntimeException(String.format("Invalid line at %d\n", count));
+                                        throw new RuntimeException(String.format("Invalid line at %d must be -p[flags]=name\n", count));
 
                                 parts[0] = parts[0].trim();
                                 parts[1] = parts[1].trim();
@@ -84,12 +84,13 @@ public class ConfigParser
                                         } catch (NumberFormatException ex) {
                                                 throw new Exception("Invalid timer");
                                         }
-                                }
+                                } else {
                                 
-                                if (!parts[0].startsWith("-p"))
-                                        throw new RuntimeException(String.format("Invalid line at %d\n", count));
+                                        if (!parts[0].startsWith("-p"))
+                                                throw new RuntimeException(String.format("Invalid line at %d command must start with -p\n", count));
 
-                                hitList.addProcess(new WantedProcessInfo(parts[1], parts[1].contains("n"), parts[1].contains("s"), parts[1].contains("k")));
+                                        hitList.addProcess(new WantedProcessInfo(parts[1], parts[1].contains("n"), parts[1].contains("s"), parts[1].contains("k")));
+                                }
                         }
                 } catch (Exception ex) {
                         throw new RuntimeException(ex.getMessage());
