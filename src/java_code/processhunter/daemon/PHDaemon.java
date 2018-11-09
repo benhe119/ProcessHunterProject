@@ -70,18 +70,22 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                         timer = parser.parse();
                 } catch (RuntimeException ex) {
                         log.printf("Error parsing config file reason: %s\n", ex.getMessage());
+                        log.flush();
                         throw new RuntimeException(ex.getMessage());
                 }
                 
                 log.println("Hunter starting...");
+                log.flush();
                 try {
                         hunterControls = ProcessHunter.getInstance(hitList, this);
                 } catch (ProcessHunterException ex) {
                         log.printf("Failed to create process hunter. Reason: %s\n", ex.getMessage());
+                        log.flush();
                         throw new RuntimeException(ex.getMessage());
                 }
                 if (timer > 0) {
                         log.printf("Hunter on for %d milliseconds\r\n", timer);
+                        log.flush();
                         hunterControls.start();
 
                         try {
@@ -92,7 +96,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
 
                 } else {
                         log.println("Hunter on for inf milliseconds");
-                        
+                        log.flush();
                         hunterControls.start();
                         
                         while (this.processCount > 0) {
@@ -107,6 +111,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                 
                 hunterControls.stop();
                 log.println("Hunter done"); 
+                log.flush();
                 
         }
         
@@ -115,6 +120,7 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
         {
                 ++this.processCount;
                 log.printf("Process added %s\r\n", process.toString());
+                log.flush();
         }
 
         @Override
@@ -122,11 +128,13 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
         {
                 --this.processCount;
                 log.printf("Process removed %s\r\n", process.toString());
+                log.flush();
         }
 
         @Override
         public void onProcessKill(ProcessInfo info, Date date) 
         {
                 log.printf("Process killed: name: %s pid: %d | snapshot date: %s\r\n", info.getProcessName(), info.getPid(), date.toString());
+                log.flush();
         }
 }
