@@ -24,11 +24,25 @@
 
 package processhunter.util;
 
+/**
+ * Container for process info gotten from native controls.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class ProcessInfo 
 {
         private String processName;
         private long pid;
         
+        /**
+         * Create an object with the process name and its PID.
+         * 
+         * @param processName the process name.
+         * @param pid the process ID.
+         */
         public ProcessInfo(String processName, long pid)
         {
                 if (processName == null)
@@ -39,12 +53,20 @@ public class ProcessInfo
                 this.processName = processName;
                 this.pid = pid;
         }
-
+        
+        /**
+         * Get the process name.
+         * @return the process name.
+         */
         public String getProcessName() 
         {
                 return processName;
         }
-
+        
+        /**
+         * Get the process ID.
+         * @return the process ID.
+         */
         public long getPid() 
         {
                 return pid;

@@ -58,6 +58,14 @@ import processhunter.core.WantedProcessInfo;
 import processhunter.util.ProcessHunterException;
 import processhunter.util.ProcessInfo;
 
+/**
+ * GUI for process hunter.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class Gui implements HitListListener, ProcessKilledCallback, ActionListener
 {
         private static final int HEIGHT = 900;
@@ -88,6 +96,9 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
         private ProcessHunterControls hunterControls;
         private final ProcessHitList hitList;
         
+        /**
+         * Create an instance for a GUI.
+         */
         public Gui() 
         {
                 JPanel logPanel = createLogPanel(new Dimension(WIDTH - 10, HEIGHT / 4));
@@ -373,6 +384,9 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 return ret;
         }
         
+        /**
+         * Setup current system's look and feel for GUI's.
+         */
         public static void setLookAndFeel()
         {
                 try {
@@ -381,6 +395,9 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 }
         }
         
+        /**
+         * Startup the GUI and hand off control to end user.
+         */
         public void init()
         {
                 try {
@@ -409,7 +426,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 String[] row = new String[2];
                 
                 row[0] = process.getProcessName();
-                row[1] = "-p" + (process.justEqualsName() ? "n" : "") + (process.isCaseSensative() ? "s" : "") + (process.justKillOnce() ? "k" : "");
+                row[1] = "-p" + (process.justEqualsName() ? "n" : "") + (process.isCaseSensitive() ? "s" : "") + (process.justKillOnce() ? "k" : "");
                 
                 
                 

@@ -36,6 +36,14 @@ import processhunter.core.WantedProcessInfo;
 import processhunter.util.ProcessHunterException;
 import processhunter.util.ProcessInfo;
 
+/**
+ * Class used for creating a process hunter that is running in daemon mode.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class PHDaemon implements HitListListener, ProcessKilledCallback
 {
         public static final String PH_DAEMON_CONFIG_FILENAME = "ph_daemon.config";
@@ -47,6 +55,9 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
         
         private volatile int processCount;
         
+        /**
+         * Get an instance of the process hunter daemon.
+         */
         public PHDaemon()
         {
                 File file = new File(PH_DAEMON_CONFIG_FILENAME);
@@ -62,6 +73,9 @@ public class PHDaemon implements HitListListener, ProcessKilledCallback
                 processCount = 0;
         }
         
+        /**
+         * Start daemon mode of process hunter.
+         */
         public void engage()
         {
                 hitList.registerListener(this);

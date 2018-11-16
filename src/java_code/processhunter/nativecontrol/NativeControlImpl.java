@@ -31,6 +31,14 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Native control of processes running on system.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class NativeControlImpl implements NativeControlSpec 
 {
         static {
@@ -66,6 +74,10 @@ public class NativeControlImpl implements NativeControlSpec
                 mutex = new ReentrantLock(true);
         }
         
+        /**
+         * Get a instance that implements all requirements of @code{NativeControlSpec}.
+         * @return A copy of native controls of processes running on a system.
+         */
         public static NativeControlSpec getInstance()
         {
                 if (instance == null) {

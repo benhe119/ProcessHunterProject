@@ -24,8 +24,20 @@
 
 package processhunter.util;
 
+/**
+ * Exception for process hunter, is a sub class of @code{Throwable}.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class ProcessHunterException extends Throwable
 {
+        /**
+         * Create new object to be thrown.
+         * @param msg the message to be sent with exception.
+         */
         public ProcessHunterException(String msg)
         {
                 super(msg);

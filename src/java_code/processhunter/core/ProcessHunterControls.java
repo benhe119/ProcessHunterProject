@@ -24,10 +24,37 @@
 
 package processhunter.core;
 
+/**
+ * Controls for the process hunter.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public interface ProcessHunterControls 
 {
+        /**
+         * Kill a process by its PID.
+         * @param pid the process ID.
+         * @return true if it was terminated otherwise false.
+         */
         public boolean killProcessByPid(long pid);
+        
+        /**
+         * Start the process hunter, any values in the hit list will be 
+         * terminated if detected.
+         */
         public void start();
+        
+        /**
+         * Stop the process hunter in a graceful manner.
+         */
         public void stop();
+        
+        /**
+         * Check if the hunter is active.
+         * @return true if its active otherwise false.
+         */
         public boolean isRunning();
 }

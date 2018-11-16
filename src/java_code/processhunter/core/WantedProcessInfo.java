@@ -24,41 +24,74 @@
 
 package processhunter.core;
 
+/**
+ * Container for a wanted process and how to identify it.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class WantedProcessInfo 
 {
         private boolean equalsName;
-        private boolean caseSensative;
+        private boolean caseSensitive;
         private boolean killOnce;
         
         private String processName;
-
-        public WantedProcessInfo(String processName, boolean equalsName, boolean caseSensative, boolean killOnce)
+        
+        /**
+         * Created a new wanted process.
+         * 
+         * @param processName the string for identification.
+         * @param equalsName if the strings should match.
+         * @param caseSensitive if comparison should be case sensitive.
+         * @param killOnce if the wanted process should be killed only on first 
+         * detect.
+         */
+        public WantedProcessInfo(String processName, boolean equalsName, boolean caseSensitive, boolean killOnce)
         {
                 if (processName == null)
                         throw new NullPointerException();
                 
                 this.equalsName = equalsName;
-                this.caseSensative = caseSensative;
+                this.caseSensitive = caseSensitive;
                 this.killOnce = killOnce;
                 
                 this.processName = processName;
         }
         
+        /**
+         * Check if identification should equal names.
+         * @return true if names must match otherwise false.
+         */
         public boolean justEqualsName() 
         {
                 return equalsName;
         }
 
-        public boolean isCaseSensative() 
+        /**
+         * Check if identification should be case sensitive.
+         * @return true if comparison should be case sensitive otherwise false.
+         */
+        public boolean isCaseSensitive() 
         {
-                return caseSensative;
+                return caseSensitive;
         }
 
+        /**
+         * If the process should only be killed on first detect.
+         * @return true if it should be killed once otherwise false.
+         */
         public boolean justKillOnce() 
         {
                 return killOnce;
         }
-
+        
+        /**
+         * Get the process identification name.
+         * @return the process identification name.
+         */
         public String getProcessName() 
         {
                 return processName;
@@ -71,7 +104,7 @@ public class WantedProcessInfo
                 sb.append("-p");
                 if (this.equalsName)
                         sb.append('n');
-                if (this.caseSensative)
+                if (this.caseSensitive)
                         sb.append('s');
                 if (this.killOnce)
                         sb.append('k');

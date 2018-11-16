@@ -28,9 +28,33 @@ import processhunter.util.ProcessInfo;
 import java.util.Date;
 import java.util.LinkedList;
 
+/**
+ * What the process hunter will need as native implementation to run.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public interface NativeControlSpec 
 {
+        /**
+         * Update the process list with currently running processes.
+         * @return the date of the most up to date process list.
+         */
         public Date updateProcessList();
+        
+        /**
+         * Get the current process list.
+         * @return a linked list of all processes running.
+         */
         public LinkedList<ProcessInfo> getProcessList();
+        
+        /**
+         * Kill a process based of ProcessInfo.
+         * @param info the info of process to be terminated.
+         * @return true if it was successfully terminated otherwise false.
+         * @see ProcessInfo
+         */
         public boolean killProcess(ProcessInfo info);
 }

@@ -30,6 +30,14 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Container for a killed process info by the process hunter.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class ProcessHitList 
 {
         private static ProcessHitList instance = null;
@@ -45,6 +53,11 @@ public class ProcessHitList
                 mutex = new ReentrantLock(true);
         }
         
+        /**
+         * Get the process instance of ProcessHitList.
+         * 
+         * @return The handle to the process hit list.
+         */
         public static ProcessHitList getInstance()
         {
                 if (instance == null) {
@@ -57,6 +70,15 @@ public class ProcessHitList
                 return instance;
         }
         
+        /**
+         * Register a HitListListener to the hit list to be notified about data
+         * added or removed from the hit list.
+         * 
+         * @see HitListListener
+         * 
+         * @param listener the listener handle.
+         * @return true if it was added otherwise false.
+         */
         public synchronized boolean registerListener(HitListListener listener)
         {
                 Iterator<HitListListener> it = hitListListenerQ.iterator();
@@ -110,6 +132,12 @@ public class ProcessHitList
                 return ret;
         }
         
+        /**
+         * Remove a process from the hit list.
+         * 
+         * @param info the process identification to be removed.
+         * @return true if info passed was found and removed, otherwise false.
+         */
         public synchronized boolean removeProcess(WantedProcessInfo info)
         {
                 boolean ret = false;
@@ -134,6 +162,11 @@ public class ProcessHitList
                 return ret;
         }
         
+        /**
+         * Get an array of all processes in the hit list.
+         * 
+         * @return an array of all processes in the hit list. 
+         */
         public synchronized WantedProcessInfo[] getCurrentInfoList()
         {
                 int i;

@@ -27,7 +27,20 @@ package processhunter.core;
 import java.util.Date;
 import processhunter.util.ProcessInfo;
 
+/**
+ * Interface for the process hunter to notify it when a process is terminated.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public interface ProcessKilledCallback 
 {
+        /**
+         * Called when a process is successfully terminated.
+         * @param info the process info of the terminated process.
+         * @param date the date when it was terminated.
+         */
         public void onProcessKill(ProcessInfo info, Date date);
 }

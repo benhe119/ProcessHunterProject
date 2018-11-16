@@ -34,6 +34,14 @@ import processhunter.daemon.PHDaemon;
 import processhunter.util.ProcessHunterException;
 import processhunter.util.ProcessInfo;
 
+/**
+ * Main class for the process hunter.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class Main
 {
         private static void help()
@@ -65,6 +73,13 @@ public class Main
                 System.exit(0);
         }
         
+        /**
+         * Starting point for software.
+         * @param args arguments only used if program should run in command line 
+         * mode.
+         * @throws ProcessHunterException if the process hunter failed to start 
+         * before any good method for communicating error to user.
+         */
         public static void main(String[] args) throws ProcessHunterException 
         {
                 if (args.length == 0) {

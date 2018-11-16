@@ -24,8 +24,29 @@
 
 package processhunter.core;
 
+/**
+ * Interface a class needs to implement in order for it to register itself as a
+ * listener to the process hit list.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
+
 public interface HitListListener 
 {
+        /**
+         * Notify the object a process has been added to the hit list.
+         * 
+         * @param process the process identification data.
+         */
         public void processAdded(WantedProcessInfo process);
+        
+        /**
+         * Notify the object a process has been removed from the hit list.
+         * 
+         * @param process the process identification data.
+         */
         public void processRemoved(WantedProcessInfo process);
 }

@@ -31,6 +31,14 @@ import processhunter.nativecontrol.NativeControlSpec;
 import processhunter.util.ProcessHunterException;
 import processhunter.util.ProcessInfo;
 
+/**
+ * The Process Hunter class that finds unwanted processes and terminates them.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class ProcessHunter implements HitListListener, ProcessHunterControls
 {
         private static ProcessHunterControls instance = null;
@@ -60,6 +68,15 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
                 hitList.registerListener(this);
         }
         
+        /**
+         * Get the single instance of process hunter.
+         * 
+         * @param hitList The instance of the process hit list.
+         * @param callback The object that should be notified of killed processes.
+         * @return handle to the instance.
+         * @throws ProcessHunterException only one handle can be obtained from
+         * the object if a second attempt is made an exception is thrown.
+         */
         public static ProcessHunterControls getInstance(ProcessHitList hitList, ProcessKilledCallback callback) throws ProcessHunterException
         {
                 if (instance == null) {
@@ -107,17 +124,17 @@ public class ProcessHunter implements HitListListener, ProcessHunterControls
         
         private void shouldKillProcess(ProcessInfo info, WantedProcessInfo wpi, Date date)
         {
-                if (wpi.isCaseSensative() && wpi.justEqualsName()) {
+                if (wpi.isCaseSensitive() && wpi.justEqualsName()) {
                         if (info.getProcessName().equals(wpi.getProcessName())) {
                                 if (this.nativeControls.killProcess(info))
                                         logProcessKilled(info, wpi, date);
                         }
-                } else if (wpi.isCaseSensative() && !wpi.justEqualsName()) {
+                } else if (wpi.isCaseSensitive() && !wpi.justEqualsName()) {
                         if (info.getProcessName().contains(wpi.getProcessName())) {
                                 if (this.nativeControls.killProcess(info))
                                         logProcessKilled(info, wpi, date);
                         }
-                } else if (!wpi.isCaseSensative() && wpi.justEqualsName()) {
+                } else if (!wpi.isCaseSensitive() && wpi.justEqualsName()) {
                         if (info.getProcessName().toLowerCase().equals(wpi.getProcessName().toLowerCase())) {
                                 if (this.nativeControls.killProcess(info))
                                         logProcessKilled(info, wpi, date);

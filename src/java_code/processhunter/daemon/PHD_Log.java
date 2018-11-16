@@ -29,6 +29,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * The daemons logger which will save logged info to a file.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class PHD_Log extends PrintWriter 
 {
         public static final String LOG_FILENAME_BEG = "ph_daemon_log_";
@@ -66,6 +74,10 @@ public class PHD_Log extends PrintWriter
                 }); 
         }
         
+        /**
+         * Get a print writer instance to log information from daemon.
+         * @return PrintWriter instance (only one instance is created).
+         */
         public static PrintWriter getInstance()
         {
                 if (instance == null) {

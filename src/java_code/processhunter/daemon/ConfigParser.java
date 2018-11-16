@@ -30,12 +30,26 @@ import java.util.Scanner;
 import processhunter.core.ProcessHitList;
 import processhunter.core.WantedProcessInfo;
 
+/**
+ * Parser for daemon configuration file.
+ * 
+ * @version 1.0
+ * @since 2018-11-16
+ * 
+ * @author Fadi Nassereddine
+ */
 public class ConfigParser 
 {
         private Scanner configScanner;
         private ProcessHitList hitList;
         private boolean finshed;
         
+        /**
+         * Create a file configuration parser.
+         * 
+         * @param hitList the hit list to add all wanted processes.
+         * @param file the file to parse.
+         */
         public ConfigParser(ProcessHitList hitList, File file)
         {
                 if (hitList == null)
@@ -51,6 +65,10 @@ public class ConfigParser
                 finshed = false;
         }
         
+        /**
+         * Parse the file.
+         * @return the timer for hunter.
+         */
         public long parse()
         {
                 long ret = 0;
