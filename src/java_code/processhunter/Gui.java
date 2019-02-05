@@ -269,7 +269,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
                 clearLogButton = new JButton("Clear Log");
                 clearLogButton.setPreferredSize(buttonDimension);
                 
-                enableDisableLogButton = new JButton("enable log");
+                enableDisableLogButton = new JButton("Enable log");
                 enableDisableLogButton.setPreferredSize(buttonDimension);
                 
                 buttonPanel.setLayout(new FlowLayout(0));
@@ -390,7 +390,7 @@ public class Gui implements HitListListener, ProcessKilledCallback, ActionListen
         public static void setLookAndFeel()
         {
                 try {
-                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 }
         }
