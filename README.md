@@ -1,7 +1,6 @@
 # Process Hunter
 A project that creates a process watchdog and terminates one depending on name
-and method of detection (if name compares to a target name). This project in no
-where near finshed and currently runs in command line mode.
+and method of detection (if name compares to a target name). 
 
 ## license
 The code uploaded is licensed under the mit license.
